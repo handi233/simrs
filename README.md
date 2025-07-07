@@ -28,6 +28,7 @@ Aplikasi ini tentang SIMRS (Sistem Informasi Management Rumah Sakit) mengelola m
 4.Pindahkan file ke htdocs
 5.Buka Browser Crome
 6.search bar url mengetik http://localhost/simrs
+7.User Login: admin & admin
 
 
 ### Prasyarat
