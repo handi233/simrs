@@ -24,7 +24,7 @@ Aplikasi ini tentang SIMRS (Sistem Informasi Management Rumah Sakit) mengelola m
 
 1.Impor Database format .sql browser crome dgn http://localhost/phpmyadmin dan pilih import DB 
 2.download xampp
-3.Aktifkan APACHE DAN MYSQL xampp
+3.Aktifkan APACHE DAN MYSQL XAMPP(DIPASTIKAN ON XAMPP)
 4.Pindahkan file ke htdocs
 5.Buka Browser Crome
 6.search bar url mengetik http://localhost/simrs
