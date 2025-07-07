@@ -1,4 +1,4 @@
-# Nama Proyek
+# SIMRS
 
 Aplikasi ini tentang SIMRS (Sistem Informasi Management Rumah Sakit) mengelola management RS/KLINIK/PRAKTEK DOKTER PRIBADI Berbasis Lite User Friendly
 
