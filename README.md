@@ -12,6 +12,7 @@ Aplikasi ini tentang SIMRS (Sistem Informasi Management Rumah Sakit) mengelola m
 - Fitur 6: Fitur IGD pasien perlu tindakan penangangan khusus / Ke gawat darurat.
 - Fitur 7: ICD 9 Prosedure.
 - Fitur 8: ICD 10 yang terbaru.
+- DAN - LAIN - LAIN
   
 ## Teknologi yang Digunakan
 
