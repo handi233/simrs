@@ -50,8 +50,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         fwrite($handle, "========================\n\n\n");
         fclose($handle);
         $cetak_msg = "<p style='color:green;'>Struk berhasil dicetak.</p>";
+        echo "<script>setTimeout(function(){ window.location.href = 'index.php'; }, 3000);</script>";
     } else {
-        $cetak_msg = "<p style='color:red;'>Gagal mencetak ke printer. Periksa koneksi printer Anda.</p>";
+        $cetak_msg = "<p style='color:red;'>Gagal mencetak ke printer. Periksa koneksi printer Anda.</p>";   
+         echo "<script>setTimeout(function(){ window.location.href = 'index.php'; }, 3000);</script>";
     }
 
     echo "<h2>Terima kasih, $no_rkm_medis</h2>";
