@@ -70,24 +70,20 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['simpan'])) {
-    $dep_id= $_POST['dep_id'];
-    $id_organisasi_satu_sehat    = $_POST['id_organisasi_satu_sehat '];
-
-  // Kirim data ke SATUSEHAT (dummy data)
-    sendOrganizationToSatuSehat($dep_id, "Departemen Dummy", "KODE-RS-DUMMY");
+    $id_organisasi_satusehat= $_POST['id_organisasi_satusehat'];
+    $id_lokasi_satusehat    = $_POST['id_lokasi_satusehat '];
 
 
-    if (empty($dep_id) || empty($id_organisasi_satu_sehat)) {
-        die("Data tidak lengkap atau tidak valid.");
-    }
 
-    $stmt = $conn->prepare("INSERT INTO satu_sehat_lokasi (`dep_id`,`id_organisasi_satu_sehat`) VALUES (?, ?)");
+    
+
+    $stmt = $conn->prepare("INSERT INTO satu_sehat_lokasi (`id_organisasi_satusehat`,`id_lokasi_satusehat`) VALUES (?, ?)");
 
     if ($stmt === false) {
         die("Prepare failed: " . $conn->error);
     }
 
-    $stmt->bind_param("ss", $dep_id,  $id_organisasi_satu_sehat);
+    $stmt->bind_param("ss", $id_ruang,  $nama);
 
     if ($stmt->execute()) {
         echo "Data berhasil ditambahkan!";
@@ -101,94 +97,7 @@ if (isset($_POST['simpan'])) {
 
 ?>
 
-<?php
-// mendapatkan Access Token
-function getSatuSehatAccessToken() {
-    // Dummy Client ID dan Client Secret
-    $client_id = 'dummy-client-id';
-    $client_secret = 'dummy-client-secret';
 
-    $curl = curl_init();
-
-    curl_setopt_array($curl, [
-        CURLOPT_URL => "",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => "grant_type=client_credentials",
-        CURLOPT_HTTPHEADER => [
-            "Authorization: Basic " . base64_encode("$client_id:$client_secret"),
-            "Content-Type: application/x-www-form-urlencoded"
-        ],
-    ]);
-
-    $response = curl_exec($curl);
-    curl_close($curl);
-
-    $result = json_decode($response, true);
-
-    return $result['access_token'] ?? null;
-}
-
-// Fungsi untuk mengirim data ke SATUSEHAT
-function sendOrganizationToSatuSehat($dep_id, $nama_dep, $kode_rs) {
-    $token = getSatuSehatAccessToken();
-    if (!$token) {
-        die("Gagal mendapatkan access token.");
-    }
-
-    // Data yang akan dikirim ke API
-    $data = [
-        "resourceType" => "Organization",
-        "identifier" => [
-            [
-                "use" => "official",
-                "system" => "http://sys-ids.kemkes.go.id/organization/$kode_rs",
-                "value" => $dep_id
-            ]
-        ],
-        "name" => $nama_dep,
-        "active" => true
-    ];
-
-    // Inisialisasi curl
-    $curl = curl_init();
-
-    curl_setopt_array($curl, [
-        CURLOPT_URL => "",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => json_encode($data),
-        CURLOPT_HTTPHEADER => [
-            "Authorization: Bearer $token",
-            "Content-Type: application/fhir+json"
-        ],
-    ]);
-
-    // Eksekusi permintaan curl
-    $response = curl_exec($curl);
-
-    // Menangani error curl jika gagal
-    if ($response === false) {
-        $error_msg = curl_error($curl);  // Ambil pesan error
-        $error_code = curl_errno($curl); // Ambil kode error (misal: timeout, dll)
-        die("Curl Error: $error_msg (Error Code: $error_code)");
-    }
-
-    // Ambil status HTTP dari respons
-    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    curl_close($curl);  // Tutup koneksi curl
-
-    // Cek jika status HTTP bukan 201 (Created)
-    if ($http_status !== 201) {
-        die("Gagal kirim data. Status HTTP: $http_status. Response: " . $response);
-    }
-
-    // Jika berhasil, tampilkan pesan sukses
-    echo "Data berhasil dikirim ke SATUSEHAT.";
-}
-
-
-?>
 
 
 <!DOCTYPE html>
@@ -509,39 +418,63 @@ window.onclick = function(event) {
 <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Buka Form</button>
 </div>
 <div id="id01" class="modal">
-  <form class="modal-content animate" action="../../modul/satusehat/mapinglokasi/index.php" method="post">
+  <form class="modal-content animate" action="../../../modul/satusehat/mapinglokasi/index.php" method="post">
     <div class="container">
    <div class="inputform">
     
 <div>
-<label for="stts">Departemen</label><br>
-        <select id="dep_id" name="nama_dep" required>
-            <option value="">Pilih Departemen</option>
-            <?php
-            $conn = new mysqli('localhost', 'root', '', 'simrs');  
+<?php
+// Koneksi ke database
+$conn = new mysqli('localhost', 'root', '', 'simrs');  
 
-            if ($conn->connect_error) {
-                die("Koneksi gagal: " . $conn->connect_error);
-            }
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
+}
 
-            // Query untuk mengambil data kategori
-            $sql = "SELECT * FROM departemen";
-            $result = $conn->query($sql);
+// Query untuk mengambil semua nama ruang
+$sql = "SELECT id_organisasi_satusehat FROM satu_sehat_Departemen";
+$result = $conn->query($sql);
+?>
 
-            // Menampilkan pilihan kategori
+<!-- Dropdown untuk memilih nama ruang -->
+<div>
+    <label for="id_ruang">Departemen Ruangan</label><br>
+    <select id="id_organisasi_satusehat" name="id_organisasi_satusehat" required onchange="showInput()">
+        <option value="">Pilih Departemen</option>
+        <?php
+        // Menampilkan semua nama ruang dalam dropdown
+        if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<option value='" . $row['dep_id'] . "'>" . $row['nama_dep'] . "</option>";
+                echo "<option value='" . $row['id_ruang'] . "'>" . $row['id_ruang'] . "</option>";
             }
+        } else {
+            echo "<option value=''>Tidak ada ruang</option>";
+        }
+        ?>
+    </select>
+</div>
 
-            // Menutup koneksi
-            $conn->close();
-            ?>
-        </select>
-        
-   </div>
-   <input type="text"  name="id_organisasi_satu_sehat"  placeholder="ID Organisasi Satu Sehat" required>
-   </div>
-  
+<!-- Input text yang muncul setelah dropdown dipilih -->
+<div id="nama_ruang_input" style="display: none;">
+    <label for="id_lokasi_satusehat">Nama Ruang</label>
+    <input type="text" id="id_lokasi_satusehat" name="id_lokasi_satusehat" placeholder="Nama Ruang" required readonly>
+</div>
+
+<script>
+// Fungsi untuk menampilkan input text dan mengisinya dengan nama ruang yang dipilih
+function showInput() {
+    var select = document.getElementById('id_ruang');
+    var nama_ruang = select.options[select.selectedIndex].value;
+    
+    // Menampilkan input text jika ada pilihan dari dropdown
+    if (nama_ruang) {
+        document.getElementById('nama_ruang_input').style.display = 'block';
+        document.getElementById('nama_rang').value = nama_ruang;  // Isi input dengan nama ruang yang dipilih
+    } else {
+       
+    }
+}
+</script>
  
    <div class="simpan">
 <button class="simpan" name="simpan"><img src="../../../asset/img/save.png" width="15">Simpan
