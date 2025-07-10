@@ -53,6 +53,7 @@ margin-bottom: 12px;
 .simpan{
   width: 85px;
   height: 70px;
+  margin-right: 10px;
   margin-left: 4px;
   margin-top: 5px;
 
@@ -82,36 +83,7 @@ $no_rawat = "$tanggal/$next_no";
 $conn->close();
 
 ?>
-<?php
-// Koneksi ke database
-$conn = new mysqli("localhost", "root", "", "simrs");
 
-// Memastikan koneksi berhasil
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Ambil nomor RM terakhir dari database
-$query = "SELECT no_rkm_medis FROM rajal ORDER BY no_rkm_medis DESC LIMIT 1";
-$result = $conn->query($query);
-
-if ($result->num_rows > 0) {
-    // Ambil nomor RM terakhir
-    $row = $result->fetch_assoc();
-    $last_no_rkm_medis = $row['no_rkm_medis'];
-
-    // Ekstrak bagian numeriknya (asumsi format RM adalah angka di akhir)
-    $no_urutan = substr($last_no_rkm_medis, -4); // Ambil 4 digit terakhir
-    $new_no_urutan = str_pad((int)$no_urutan +1 , 4, "0", STR_PAD_LEFT); // Menambahkan 1 dan pastikan 4 digit
-
-    $no_rkm_medis = "" . $new_no_urutan;
-} else {
-    // Jika belum ada data, buat nomor RM pertama
-    $new_no_rkm_medis = "0001";
-}
-
-$conn->close();
-?>
 
 <?php
 $host     = "localhost";
@@ -488,8 +460,8 @@ window.onclick = function(event) {
   <form class="modal-content animate" action="../../modul/rawat_jalan/index.php" method="post">
     <div class="container">
    <div class="inputform">
-<input type="text"  name="no_rawat" value="<?php echo $no_rawat; ?>"  placeholder="No RM" required>
- <input type="text"  name="no_rkm_medis" value="<?php echo $no_rkm_medis; ?>"  placeholder="No RM" required>
+<input type="text"  name="no_rawat" value="<?php echo $no_rawat; ?>"  placeholder="No Rawat" required>
+ <input type="text"  name="no_rkm_medis" value="<?php echo $no_rkm_medis; ?>"  placeholder="No RM Lama/Baru" required>
   <label>Tgl Periksa</label>
  <input type="date"  name="tgl_periksa"  required>
  <label>Jam Periksa</label>
