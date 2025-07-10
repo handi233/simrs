@@ -1,4 +1,3 @@
- 
 <?php
 session_start();
 if (session_status() === PHP_SESSION_NONE) {
@@ -174,11 +173,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </span>
 
                 <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
-                    <input id="first-name" class="input100" type="text" name="username" placeholder="User name" autofocus required>
+                    <input id="first-name" class="input100" type="text" name="username" placeholder="nama pengguna" autofocus required>
                     <span class="focus-input100"></span>
                 </div>
                 <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
-                    <input class="input100" type="password" name="password" placeholder="Password" required>
+                    <input class="input100" type="password" name="password" placeholder="password" required>
                     <span class="focus-input100"></span>
                 </div>
 
