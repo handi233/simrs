@@ -81,7 +81,7 @@ if (!isset($_SESSION['username'])) {
             color: white !important;
         }
         .exit {
-            position: fixed;
+            position: absolute;
             top: 10px;
             right: 10px;
         }
