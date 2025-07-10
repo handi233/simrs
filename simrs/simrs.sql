@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2025 at 04:37 PM
+-- Generation Time: Jul 10, 2025 at 10:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -186,6 +186,24 @@ CREATE TABLE `igd` (
 
 INSERT INTO `igd` (`id`, `no_rkm_medis`, `tgl_inap`, `jam_inap`) VALUES
 (15, '0001', '2025-07-01', '15:04:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventaris_ruang`
+--
+
+CREATE TABLE `inventaris_ruang` (
+  `id_ruang` varchar(30) NOT NULL,
+  `nama_ruang` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `inventaris_ruang`
+--
+
+INSERT INTO `inventaris_ruang` (`id_ruang`, `nama_ruang`) VALUES
+('ANG - Anggrek', 'Anggrek');
 
 -- --------------------------------------------------------
 
@@ -480,12 +498,59 @@ INSERT INTO `rawatinap` (`id`, `no_rkm_medis`, `tgl_inap`, `jam_inap`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `satusehat_pengaturan`
+--
+
+CREATE TABLE `satusehat_pengaturan` (
+  `id` int(10) NOT NULL,
+  `Organisasi_ID` varchar(30) NOT NULL,
+  `Client_ID` varchar(80) NOT NULL,
+  `Secret_ID` varchar(80) NOT NULL,
+  `Auth_URL` varchar(30) NOT NULL,
+  `Longitude` varchar(40) NOT NULL,
+  `Latitude` varchar(30) NOT NULL,
+  `kd_kelurahan` varchar(20) NOT NULL,
+  `kd_kecamatan` varchar(30) NOT NULL,
+  `kd_kabupaten` varchar(30) NOT NULL,
+  `kd_provinsi` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `satu_sehat_departemen`
 --
 
 CREATE TABLE `satu_sehat_departemen` (
   `dep_id` char(4) NOT NULL,
   `id_organisasi_satu_sehat` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `satu_sehat_lokasi`
+--
+
+CREATE TABLE `satu_sehat_lokasi` (
+  `kode` char(5) NOT NULL,
+  `lokasi` varchar(40) NOT NULL,
+  `id_organisasi_satusehat` varchar(40) NOT NULL,
+  `id_lokasi_satusehat` varchar(40) NOT NULL,
+  `longitude` varchar(30) NOT NULL,
+  `latitude` varchar(30) NOT NULL,
+  `altitude` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `satu_sehat_praktisi`
+--
+
+CREATE TABLE `satu_sehat_praktisi` (
+  `practitioner_id` varchar(40) NOT NULL,
+  `kd_dokter` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -643,6 +708,12 @@ ALTER TABLE `igd`
   ADD KEY `no_rkm_medis` (`no_rkm_medis`);
 
 --
+-- Indexes for table `inventaris_ruang`
+--
+ALTER TABLE `inventaris_ruang`
+  ADD KEY `id_ruang` (`id_ruang`);
+
+--
 -- Indexes for table `laborat`
 --
 ALTER TABLE `laborat`
@@ -732,11 +803,35 @@ ALTER TABLE `rawatinap`
   ADD KEY `no_rkm_medis` (`no_rkm_medis`);
 
 --
+-- Indexes for table `satusehat_pengaturan`
+--
+ALTER TABLE `satusehat_pengaturan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Organisasi_ID` (`Organisasi_ID`),
+  ADD KEY `Client_ID` (`Client_ID`),
+  ADD KEY `Secret_ID` (`Secret_ID`);
+
+--
 -- Indexes for table `satu_sehat_departemen`
 --
 ALTER TABLE `satu_sehat_departemen`
   ADD PRIMARY KEY (`dep_id`),
   ADD KEY `id_organisasi_satu_sehat` (`id_organisasi_satu_sehat`);
+
+--
+-- Indexes for table `satu_sehat_lokasi`
+--
+ALTER TABLE `satu_sehat_lokasi`
+  ADD PRIMARY KEY (`kode`),
+  ADD KEY `id_lokasi_satusehat` (`id_lokasi_satusehat`),
+  ADD KEY `satu_sehat_lokasi_ibfk_1` (`id_organisasi_satusehat`);
+
+--
+-- Indexes for table `satu_sehat_praktisi`
+--
+ALTER TABLE `satu_sehat_praktisi`
+  ADD PRIMARY KEY (`practitioner_id`),
+  ADD KEY `kd_dokter` (`kd_dokter`);
 
 --
 -- Indexes for table `settings`
@@ -876,6 +971,12 @@ ALTER TABLE `rawatinap`
 --
 ALTER TABLE `satu_sehat_departemen`
   ADD CONSTRAINT `satu_sehat_departemen_ibfk_1` FOREIGN KEY (`dep_id`) REFERENCES `departemen` (`dep_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `satu_sehat_lokasi`
+--
+ALTER TABLE `satu_sehat_lokasi`
+  ADD CONSTRAINT `satu_sehat_lokasi_ibfk_1` FOREIGN KEY (`id_organisasi_satusehat`) REFERENCES `satu_sehat_departemen` (`id_organisasi_satu_sehat`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
