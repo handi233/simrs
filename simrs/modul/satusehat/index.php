@@ -257,7 +257,7 @@ if (!isset($_SESSION['username'])) {
   <div class="col-md-4" >
     <div class="container">
       <p style="text-size: 12px;" class="md-3" >
-      <a href="#">
+      <a href="../../modul/satusehat/pengaturan/index.php">
         <img src="/simrs/asset/images/images/satusehat.png" style="width:39px">
         <div class="caption">
       <p style="">PERATURAN </p>
