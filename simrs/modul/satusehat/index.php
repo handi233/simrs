@@ -236,7 +236,7 @@ if (!isset($_SESSION['username'])) {
   <div class="col-md-4" >
     <div class="container">
       <p style="text-size: 12px;" class="md-3" >
-      <a href="#">
+      <a href="../../modul/satusehat/mapinglokasi/index.php">
         <img src="/simrs/asset/images/images/satusehat.png" style="width:39px">
         <div class="caption">
       <p style="left:8px;">MAPPING LOKASI </p>
@@ -246,7 +246,7 @@ if (!isset($_SESSION['username'])) {
   <div class="col-md-4" >
     <div class="container">
       <p style="text-size: 12px;" class="md-3" >
-      <a href="#">
+      <a href="../../modul/satusehat/mapingpraktisi/index.php">
         <img src="/simrs/asset/images/images/satusehat.png" style="width:39px">
         <div class="caption">
             <div class="4">
@@ -285,3 +285,4 @@ if (!isset($_SESSION['username'])) {
 </body>
 
 </html>
+
