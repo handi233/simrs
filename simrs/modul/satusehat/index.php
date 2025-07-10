@@ -51,6 +51,10 @@ if (!isset($_SESSION['username'])) {
 "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 <style> 
+.satu a, .dua a, .tiga a, .empat a {
+  color: black !important;
+  text-decoration: none !important;
+}
      .navbar-dark bg-succes {
             background-color: lightgreen;
            
@@ -167,22 +171,31 @@ if (!isset($_SESSION['username'])) {
     position: fixed;
     margin-top: 50px;
     margin-left: 50px;
+    color: black !important;
+    text-decoration: none;
 }
 .dua{
     position: fixed;
     margin-top: -10;
     margin-left: 60px;
+    color: black !important;
+    text-decoration: none;
 }
 .tiga{
     position: fixed;
     margin-top: -10;
     margin-left: 130px;
+    color: black !important;
+    text-decoration: none;
 }
 .empat{
     position: fixed;
     margin-top: -10;
     margin-left: 210px;
+    color: black !important;
+    text-decoration: none;
 }
+
 </style>
 <nav>
     <nav class="navbar navbar-dark bg-success">
@@ -212,7 +225,7 @@ if (!isset($_SESSION['username'])) {
   <div class="col-md-4" >
     <div class="container">
       <p style="text-size: 12px;" class="md-3" >
-      <a href="../../modul/satusehat/mapingdepartemen/index.php">
+      <a href="../../modul/satusehat/mapingdepartemen/index.php" >
         <img src="/simrs/asset/images/images/satusehat.png" style="width:39px">
         <div class="caption">
       <p style="left:8px;">MAPPING DEPARTEMEN</p>
@@ -272,4 +285,3 @@ if (!isset($_SESSION['username'])) {
 </body>
 
 </html>
-
