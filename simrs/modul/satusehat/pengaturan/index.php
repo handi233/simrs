@@ -70,24 +70,29 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['simpan'])) {
-    $dep_id= $_POST['dep_id'];
-    $id_organisasi_satu_sehat    = $_POST['id_organisasi_satu_sehat '];
+    $organisasi_id= $_POST['organisasi_id'];
+    $client_id    = $_POST['client_id '];
+    $secret_id    = $_POST['secret_id '];
+    $auth_url    = $_POST['auth_url '];
+    $longitude    = $_POST['longitude '];
+    $latitude    = $_POST['latitude '];
+    $kd_kelurahan    = $_POST['kd_kelurahan '];
+    $kd_kecamatan    = $_POST['kd_kecamatan '];
+    $kd_kabupaten    = $_POST['kd_kabupaten '];
+    $kd_provinsi    = $_POST['kd_provinsi '];
+  
 
-  // Kirim data ke SATUSEHAT (dummy data)
-    sendOrganizationToSatuSehat($dep_id, "Departemen Dummy", "KODE-RS-DUMMY");
-
-
-    if (empty($dep_id) || empty($id_organisasi_satu_sehat)) {
+    if (empty($organisasi_id) || empty($client_id)|| empty($secret_id)|| empty($auth_url) || empty($longitude) || empty($latitude)|| empty($kd_kelurahan) ||  empty($kd_kecamatan) || empty($kd_kabupaten) || empty($kd_provinsi)) {
         die("Data tidak lengkap atau tidak valid.");
     }
 
-    $stmt = $conn->prepare("INSERT INTO satu_sehat_lokasi (`dep_id`,`id_organisasi_satu_sehat`) VALUES (?, ?)");
+    $stmt = $conn->prepare("INSERT INTO satusehat_pengaturan (`organisasi_id`,`client_id`,`secret_id`,`auth_url`,`longitude`,`latitude`,`latitude`,`kd_kelurahan`,`kd_kecamatan`,`kd_kabupaten`,`kd_provinsi`) VALUES (?, ?,?, ?,?, ?,?, ?,?, ?)");
 
     if ($stmt === false) {
         die("Prepare failed: " . $conn->error);
     }
 
-    $stmt->bind_param("ss", $dep_id,  $id_organisasi_satu_sehat);
+    $stmt->bind_param("ssssssssss", $organisasi_id,  $client_id,$secret_id,$auth_url,$longitude,$latitude,$kd_kelurahan,$kd_kecamatan,$kd_kabupaten,$kd_provinsi);
 
     if ($stmt->execute()) {
         echo "Data berhasil ditambahkan!";
@@ -101,94 +106,9 @@ if (isset($_POST['simpan'])) {
 
 ?>
 
-<?php
-// mendapatkan Access Token
-function getSatuSehatAccessToken() {
-    // Dummy Client ID dan Client Secret
-    $client_id = 'dummy-client-id';
-    $client_secret = 'dummy-client-secret';
-
-    $curl = curl_init();
-
-    curl_setopt_array($curl, [
-        CURLOPT_URL => "",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => "grant_type=client_credentials",
-        CURLOPT_HTTPHEADER => [
-            "Authorization: Basic " . base64_encode("$client_id:$client_secret"),
-            "Content-Type: application/x-www-form-urlencoded"
-        ],
-    ]);
-
-    $response = curl_exec($curl);
-    curl_close($curl);
-
-    $result = json_decode($response, true);
-
-    return $result['access_token'] ?? null;
-}
-
-// Fungsi untuk mengirim data ke SATUSEHAT
-function sendOrganizationToSatuSehat($dep_id, $nama_dep, $kode_rs) {
-    $token = getSatuSehatAccessToken();
-    if (!$token) {
-        die("Gagal mendapatkan access token.");
-    }
-
-    // Data yang akan dikirim ke API
-    $data = [
-        "resourceType" => "Organization",
-        "identifier" => [
-            [
-                "use" => "official",
-                "system" => "http://sys-ids.kemkes.go.id/organization/$kode_rs",
-                "value" => $dep_id
-            ]
-        ],
-        "name" => $nama_dep,
-        "active" => true
-    ];
-
-    // Inisialisasi curl
-    $curl = curl_init();
-
-    curl_setopt_array($curl, [
-        CURLOPT_URL => "",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => json_encode($data),
-        CURLOPT_HTTPHEADER => [
-            "Authorization: Bearer $token",
-            "Content-Type: application/fhir+json"
-        ],
-    ]);
-
-    // Eksekusi permintaan curl
-    $response = curl_exec($curl);
-
-    // Menangani error curl jika gagal
-    if ($response === false) {
-        $error_msg = curl_error($curl);  // Ambil pesan error
-        $error_code = curl_errno($curl); // Ambil kode error (misal: timeout, dll)
-        die("Curl Error: $error_msg (Error Code: $error_code)");
-    }
-
-    // Ambil status HTTP dari respons
-    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    curl_close($curl);  // Tutup koneksi curl
-
-    // Cek jika status HTTP bukan 201 (Created)
-    if ($http_status !== 201) {
-        die("Gagal kirim data. Status HTTP: $http_status. Response: " . $response);
-    }
-
-    // Jika berhasil, tampilkan pesan sukses
-    echo "Data berhasil dikirim ke SATUSEHAT.";
-}
 
 
-?>
+
 
 
 <!DOCTYPE html>
@@ -361,7 +281,7 @@ button {
   right: 30;
   margin-top: 0;
   width: 100%; /* Full width */
-  height: 130%; /* Full height */
+  height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
@@ -372,7 +292,7 @@ button {
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
- height:50%;
+ height:165%;
 }
 
 /* The Close Button (x) */
@@ -514,33 +434,20 @@ window.onclick = function(event) {
    <div class="inputform">
     
 <div>
-<label for="stts">Departemen</label><br>
-        <select id="dep_id" name="nama_dep" required>
-            <option value="">Pilih Departemen</option>
-            <?php
-            $conn = new mysqli('localhost', 'root', '', 'simrs');  
 
-            if ($conn->connect_error) {
-                die("Koneksi gagal: " . $conn->connect_error);
-            }
-
-            // Query untuk mengambil data kategori
-            $sql = "SELECT * FROM departemen";
-            $result = $conn->query($sql);
-
-            // Menampilkan pilihan kategori
-            while ($row = $result->fetch_assoc()) {
-                echo "<option value='" . $row['dep_id'] . "'>" . $row['nama_dep'] . "</option>";
-            }
-
-            // Menutup koneksi
-            $conn->close();
-            ?>
-        </select>
         
    </div>
-   <input type="text"  name="id_organisasi_satu_sehat"  placeholder="ID Organisasi Satu Sehat" required>
-   </div>
+   <input type="text"  name="organisasi_id"  placeholder="ID Organisasi Satu Sehat" required>
+  <input type="text"  name="client_id"  placeholder="Client ID" required> 
+  <input type="text"  name="secret_id"  placeholder="Secret ID" required>
+  <input type="text"  name="auth_url"  placeholder="AUTH URL" required>
+  <input type="text"  name="longitude"  placeholder="Longitude" required>
+  <input type="text"  name="latitude"  placeholder="Latitude" required>
+  <input type="text"  name="kd_kelurahan"  placeholder="kd kelurahan" required>
+  <input type="text"  name="kd_kecamatan"  placeholder="kd kecamatan" required>
+  <input type="text"  name="kd_kabupaten"  placeholder="kd kabupaten" required>
+  <input type="text"  name="kd_provinsi"  placeholder="kd provinsi" required>
+</div>
   
  
    <div class="simpan">
@@ -605,26 +512,24 @@ $conn->close();
     <table class="table table-bordered">
         <thead class="thead-dark">
             <tr>
-                <th>Kode Lokasi</th>
-                <th>Nama Lokasi</th>
-                 <th>ID Organisasi Satu Sehat</th>
-               <th>ID Lokasi Satu Sehat</th>
+                <th>ID Organisasi Satu Sehat</th>
+                <th>Client ID</th>
+                 <th>Secret ID</th>
+               <th>AUTH URL</th>
                 <th>Longitude</th>
-                 <th>Latitude</th>
-                   <th>Altitude</th>
+                 <th>Latitude</th>         
             </tr>
         </thead>
         <tbody>
             <?php if ($result && $result->num_rows > 0): ?>
                 <?php while($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($row["kode"]) ?></td>
-                        <td><?= htmlspecialchars($row["lokasi"]) ?></td>
-                          <td><?= htmlspecialchars($row["id_organisasi_satu_Sehat"]) ?></td>
-                          <td><?= htmlspecialchars($row["id_lokasi_satu_sehat"]) ?></td>
-                          <td><?= htmlspecialchars($row["longitude"]) ?></td>
-                          <td><?= htmlspecialchars($row["latitude"]) ?></td>
-                          <td><?= htmlspecialchars($row["altitude"]) ?></td>
+                        <td><?= htmlspecialchars($row["Organisasi_ID"]) ?></td>
+                        <td><?= htmlspecialchars($row["Client_ID"]) ?></td>
+                          <td><?= htmlspecialchars($row["Secret_ID"]) ?></td>
+                          <td><?= htmlspecialchars($row["Auth_URL"]) ?></td>
+                          <td><?= htmlspecialchars($row["Longitude"]) ?></td>
+                          <td><?= htmlspecialchars($row["Latitude"]) ?></td>
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>
