@@ -111,6 +111,7 @@ if (!isset($_SESSION['username'])) {
         .modul-link strong {
             display: block;
             margin-top: 8px;
+            font-weight: normal !important;
         }
         body {
     margin-bottom: 50px;
