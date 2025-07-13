@@ -178,6 +178,7 @@ $search = isset($_GET['q']) ? strtolower(trim($_GET['q'])) : '';
             ['nama' => 'Pengajuan Cuti', 'icon' => 'pegawai.png', 'url' => '/simrs/modul/cuti/index.php'],
             ['nama' => 'Departement', 'icon' => 'dep.png', 'url' => '/simrs/modul/departemen/index.php'],
             ['nama' => 'Statistik', 'icon' => 'analisis.png', 'url' => '/simrs/modul/statistik/index.php'],
+            ['nama' => 'Antrian', 'icon' => 'antrian.png', 'url' => '/simrs/modul/antrian/index.php'],
         ];
 
         $found = false;
