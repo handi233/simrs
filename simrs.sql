@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2025 at 04:52 PM
+-- Generation Time: Jul 14, 2025 at 04:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -453,6 +453,18 @@ INSERT INTO `rawatinap` (`id`, `no_rkm_medis`, `tgl_inap`, `jam_inap`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `satusehat`
+--
+
+CREATE TABLE `satusehat` (
+  `client_key` varchar(30) NOT NULL,
+  `secret_key` varchar(30) NOT NULL,
+  `url` varchar(70) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `settings`
 --
 
@@ -642,7 +654,8 @@ ALTER TABLE `pengajuan_cuti`
 --
 ALTER TABLE `penjab`
   ADD PRIMARY KEY (`kd_pj`),
-  ADD KEY `nama_pj` (`kd_pj`) USING BTREE;
+  ADD KEY `nama_pj` (`kd_pj`) USING BTREE,
+  ADD KEY `nama_pj_2` (`nama_pj`);
 
 --
 -- Indexes for table `periksarajal`
@@ -774,7 +787,7 @@ ALTER TABLE `igd`
 -- Constraints for table `laborat`
 --
 ALTER TABLE `laborat`
-  ADD CONSTRAINT `laborat_ibfk_1` FOREIGN KEY (`no_rkm_medis`) REFERENCES `pasien` (`no_rkm_medis`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `laborat_ibfk_1` FOREIGN KEY (`no_rkm_medis`) REFERENCES `rajal` (`no_rkm_medis`),
   ADD CONSTRAINT `laborat_ibfk_2` FOREIGN KEY (`nama_dokter`) REFERENCES `dokter` (`nama_dokter`) ON UPDATE CASCADE,
   ADD CONSTRAINT `laborat_ibfk_3` FOREIGN KEY (`nama_pj`) REFERENCES `penjab` (`nama_pj`) ON UPDATE CASCADE;
 
