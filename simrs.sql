@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2025 at 04:36 AM
+-- Generation Time: Jul 14, 2025 at 08:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -138,6 +138,24 @@ INSERT INTO `dokter` (`kd_dokter`, `nama_dokter`) VALUES
 CREATE TABLE `gender` (
   `jenis_kelamin` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `icd10`
+--
+
+CREATE TABLE `icd10` (
+  `kd_icd` varchar(10) NOT NULL,
+  `nama` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `icd10`
+--
+
+INSERT INTO `icd10` (`kd_icd`, `nama`) VALUES
+('A00.0', 'Cholera');
 
 -- --------------------------------------------------------
 
