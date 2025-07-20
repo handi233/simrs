@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2025 at 08:28 AM
+-- Generation Time: Jul 20, 2025 at 05:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -44,7 +44,10 @@ INSERT INTO `antrian_pasien` (`id`, `no_rkm_medis`, `nama`, `no_antrian`, `tangg
 (27, '0001', 'hasbi', 1, '2025-07-09', '2025-07-09 12:10:10'),
 (28, '0001', 'hasbi', 2, '2025-07-09', '2025-07-09 14:22:38'),
 (29, '0002', 'dika', 3, '2025-07-09', '2025-07-09 14:58:39'),
-(30, '0001', 'hasbi', 4, '2025-07-09', '2025-07-09 14:58:55');
+(30, '0001', 'hasbi', 4, '2025-07-09', '2025-07-09 14:58:55'),
+(31, '0005', 'hasbullah', 1, '2025-07-18', '2025-07-18 07:43:58'),
+(32, '0001', 'hasbi', 2, '2025-07-18', '2025-07-18 07:45:42'),
+(33, '0001', 'hasbi', 1, '2025-07-19', '2025-07-19 07:52:56');
 
 -- --------------------------------------------------------
 
@@ -297,6 +300,20 @@ INSERT INTO `pegawai` (`kd_karyawan`, `nama_karyawan`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pemanggilan_terakhir`
+--
+
+CREATE TABLE `pemanggilan_terakhir` (
+  `id` int(11) NOT NULL,
+  `tanggal` date NOT NULL,
+  `no_antrian` varchar(10) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `waktu_panggil` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pengajuan_cuti`
 --
 
@@ -437,16 +454,17 @@ CREATE TABLE `rajal` (
   `jam_periksa` time NOT NULL,
   `nama_dokter` varchar(20) NOT NULL,
   `nama_pj` varchar(30) NOT NULL,
-  `nama_stts` varchar(20) NOT NULL
+  `nama_stts` varchar(20) NOT NULL,
+  `namapoli` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rajal`
 --
 
-INSERT INTO `rajal` (`no_rawat`, `no_rkm_medis`, `tgl_periksa`, `jam_periksa`, `nama_dokter`, `nama_pj`, `nama_stts`) VALUES
-('20250709/0001', '0001', '0000-00-00', '00:00:00', 'Dr. Mutya', 'UMUM', 'BARU'),
-('20250709/0002', '0002', '2025-07-09', '06:23:00', 'Dr. Dwi', 'UMUM', 'BARU');
+INSERT INTO `rajal` (`no_rawat`, `no_rkm_medis`, `tgl_periksa`, `jam_periksa`, `nama_dokter`, `nama_pj`, `nama_stts`, `namapoli`) VALUES
+('20250709/0001', '0001', '0000-00-00', '00:00:00', 'Dr. Mutya', 'UMUM', 'BARU', ''),
+('20250709/0002', '0002', '2025-07-09', '06:23:00', 'Dr. Dwi', 'UMUM', 'BARU', '');
 
 -- --------------------------------------------------------
 
@@ -556,6 +574,7 @@ INSERT INTO `stts_biling` (`kd_stts`, `nama_stts`) VALUES
 --
 
 CREATE TABLE `users` (
+  `user_id` int(30) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
@@ -567,8 +586,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`username`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-('001', '$2y$10$r2eX7SOYEawUmlBXHclG9eIZVfop7n5x.LKxXAlim1F46tM0HqEHy', NULL, NULL, NULL);
+INSERT INTO `users` (`user_id`, `username`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(0, '001', '$2y$10$r2eX7SOYEawUmlBXHclG9eIZVfop7n5x.LKxXAlim1F46tM0HqEHy', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -661,6 +680,12 @@ ALTER TABLE `pegawai`
   ADD PRIMARY KEY (`kd_karyawan`);
 
 --
+-- Indexes for table `pemanggilan_terakhir`
+--
+ALTER TABLE `pemanggilan_terakhir`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pengajuan_cuti`
 --
 ALTER TABLE `pengajuan_cuti`
@@ -687,10 +712,10 @@ ALTER TABLE `periksarajal`
 --
 ALTER TABLE `poliklinik`
   ADD PRIMARY KEY (`kd_poli`),
-  ADD KEY `nm_poli` (`nm_poli`),
   ADD KEY `registrasi` (`registrasi`),
   ADD KEY `registrasilama` (`registrasilama`),
-  ADD KEY `kd_poli` (`kd_poli`);
+  ADD KEY `kd_poli` (`kd_poli`),
+  ADD KEY `nm_poli` (`nm_poli`);
 
 --
 -- Indexes for table `radiologi`
@@ -709,7 +734,8 @@ ALTER TABLE `rajal`
   ADD KEY `no_rkm_medis` (`no_rkm_medis`),
   ADD KEY `nama_dokter` (`nama_dokter`),
   ADD KEY `rajal_ibfk_4` (`nama_stts`),
-  ADD KEY `rajal_ibfk_5` (`nama_pj`);
+  ADD KEY `rajal_ibfk_5` (`nama_pj`),
+  ADD KEY `namapoli` (`namapoli`);
 
 --
 -- Indexes for table `rawatinap`
@@ -742,7 +768,8 @@ ALTER TABLE `stts_biling`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD KEY `username` (`username`) USING BTREE;
+  ADD KEY `username` (`username`) USING BTREE,
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -752,7 +779,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `antrian_pasien`
 --
 ALTER TABLE `antrian_pasien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `apam`
@@ -765,6 +792,12 @@ ALTER TABLE `apam`
 --
 ALTER TABLE `igd`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `pemanggilan_terakhir`
+--
+ALTER TABLE `pemanggilan_terakhir`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `periksarajal`
