@@ -10,8 +10,7 @@ Aplikasi ini tentang SIMRS (Sistem Informasi Management Rumah Sakit) mengelola m
 - Fitur 4: Stock Obat Apotik baru dari reseller.
 - Fitur 5: Rawat inap untuk pasien menginap.
 - Fitur 6: Fitur IGD pasien perlu tindakan penangangan khusus / Ke gawat darurat.
-- Fitur 7: ICD 9 Prosedure.
-- Fitur 8: ICD 10 yang terbaru.
+- Fitur 7: ICD 10 yang terbaru.
 - DAN - LAIN - LAIN
   
 ## Teknologi yang Digunakan
