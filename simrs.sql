@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2025 at 05:16 AM
+-- Generation Time: Jul 22, 2025 at 07:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -67,7 +67,7 @@ CREATE TABLE `apam` (
 --
 
 CREATE TABLE `biling` (
-  `no_rawat` varchar(30) NOT NULL,
+  `no_rkm_medis` varchar(30) NOT NULL,
   `tgl_bayar` date NOT NULL,
   `nm_perawatan` varchar(50) NOT NULL,
   `biaya` double NOT NULL,
@@ -75,14 +75,6 @@ CREATE TABLE `biling` (
   `total` double NOT NULL,
   `status` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `biling`
---
-
-INSERT INTO `biling` (`no_rawat`, `tgl_bayar`, `nm_perawatan`, `biaya`, `jumlah`, `total`, `status`) VALUES
-('20250709/0001', '2025-07-09', 'bekas luka', 10000, 0, 10000, '-'),
-('20250709/0002', '2025-07-02', '-', 8000, 2, 0, 'laboratorium');
 
 -- --------------------------------------------------------
 
@@ -129,8 +121,8 @@ CREATE TABLE `dokter` (
 --
 
 INSERT INTO `dokter` (`kd_dokter`, `nama_dokter`) VALUES
-('D0002', 'Dr. Dwi'),
-('D0001', 'Dr. Mutya');
+('D0002', 'Dr. A'),
+('D0001', 'Dr. B');
 
 -- --------------------------------------------------------
 
@@ -200,7 +192,7 @@ CREATE TABLE `laborat` (
 --
 
 INSERT INTO `laborat` (`no_rkm_medis`, `tgl_periksa`, `jam_periksa`, `nama_dokter`, `nama_pj`, `hasil_lab`) VALUES
-('0001', '0000-00-00', '00:00:00', 'Dr. Mutya', 'UMUM', '');
+('0001', '0000-00-00', '00:00:00', 'Dr. B', 'UMUM', '');
 
 -- --------------------------------------------------------
 
@@ -231,7 +223,7 @@ INSERT INTO `obat` (`id`, `kd_obat`, `tgl`, `nama`, `pcs`) VALUES
 
 CREATE TABLE `pasien` (
   `no_rkm_medis` varchar(10) NOT NULL,
-  `nama` varchar(190) NOT NULL,
+  `nama` varchar(35) NOT NULL,
   `jk` varchar(20) NOT NULL,
   `no_ktp` int(16) NOT NULL,
   `tmp_lahir` varchar(50) NOT NULL,
@@ -375,50 +367,22 @@ INSERT INTO `periksarajal` (`id`, `no_rkm_medis`, `keluhan`, `diagnosa`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `poliklinik`
+-- Table structure for table `poli`
 --
 
-CREATE TABLE `poliklinik` (
-  `kd_poli` char(5) NOT NULL DEFAULT '',
-  `nm_poli` varchar(50) DEFAULT NULL,
-  `registrasi` double NOT NULL,
-  `registrasilama` double NOT NULL,
-  `status` enum('0','1') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+CREATE TABLE `poli` (
+  `kd_poli` int(10) NOT NULL,
+  `nm_poli` varchar(35) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `poliklinik`
+-- Dumping data for table `poli`
 --
 
-INSERT INTO `poliklinik` (`kd_poli`, `nm_poli`, `registrasi`, `registrasilama`, `status`) VALUES
-('1.', 'INT', 0, 0, '0'),
-('ANA', 'ANA Poli Anak tr', 0, 0, '0'),
-('BDS', 'BEDAH SARAF', 0, 0, '0'),
-('BSY', 'Bedah Syaraf', 0, 0, '0'),
-('IGDK', 'IGD', 10000, 10000, '1'),
-('INT', 'INT Poli Penyakit Dalam', 0, 0, '1'),
-('OBG', 'OBG Poli Obstetri/Gyn.', 0, 0, '1'),
-('U0001', 'Poliklinik Kandungan', 10000, 10000, '1'),
-('U0002', 'Poliklinik Anak', 10000, 10000, '1'),
-('U0003', 'Poliklinik Penyakit Dalam', 10000, 10000, '1'),
-('U0004', 'Poliklinik Bedah', 10000, 10000, '1'),
-('U0005', 'Poliklinik Mata', 10000, 10000, '1'),
-('U0006', 'Poliklinik Kulit & Kelamin', 10000, 10000, '1'),
-('U0007', 'Poliklinik Syaraf / Neurologi', 10000, 10000, '1'),
-('U0008', 'Poliklinik Radiologi', 10000, 10000, '1'),
-('U0009', 'Poliklinik Umum', 10000, 10000, '1'),
-('U0010', 'Poliklinik Gigi & Mulut', 10000, 10000, '1'),
-('U0011', 'Poliklinik THT', 10000, 10000, '1'),
-('U0012', 'Poliklinik Jantung', 10000, 10000, '1'),
-('U0016', 'ORTHOPEDI', 10000, 10000, '0'),
-('U0026', 'Unit Laborat', 0, 0, '1'),
-('U0027', 'MCU', 0, 0, '1'),
-('U0028', 'TES ASA sasasa', 1000, 1000, '0'),
-('U0044', 'Poli Syaraf', 0, 0, '0'),
-('U0052', 'POLI GINJAL', 0, 0, '1'),
-('U0053', 'fisioterapi', 0, 0, '1'),
-('U0099', 'poli geriatri', 0, 0, '0'),
-('UMU', 'UMUM', 0, 0, '1');
+INSERT INTO `poli` (`kd_poli`, `nm_poli`) VALUES
+(1, 'Anak'),
+(2, 'Obgyn'),
+(3, 'Umum');
 
 -- --------------------------------------------------------
 
@@ -434,13 +398,6 @@ CREATE TABLE `radiologi` (
   `nama_pj` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `radiologi`
---
-
-INSERT INTO `radiologi` (`no_rkm_medis`, `tgl_periksa`, `jam_periksa`, `nama_dokter`, `nama_pj`) VALUES
-('0001', '0000-00-00', '00:00:00', 'Dr. Mutya', 'UMUM');
-
 -- --------------------------------------------------------
 
 --
@@ -448,23 +405,22 @@ INSERT INTO `radiologi` (`no_rkm_medis`, `tgl_periksa`, `jam_periksa`, `nama_dok
 --
 
 CREATE TABLE `rajal` (
-  `no_rawat` varchar(30) NOT NULL,
   `no_rkm_medis` varchar(20) NOT NULL,
+  `nama` varchar(30) NOT NULL,
   `tgl_periksa` date NOT NULL,
   `jam_periksa` time NOT NULL,
   `nama_dokter` varchar(20) NOT NULL,
   `nama_pj` varchar(30) NOT NULL,
   `nama_stts` varchar(20) NOT NULL,
-  `namapoli` varchar(50) NOT NULL
+  `nm_poli` varchar(35) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rajal`
 --
 
-INSERT INTO `rajal` (`no_rawat`, `no_rkm_medis`, `tgl_periksa`, `jam_periksa`, `nama_dokter`, `nama_pj`, `nama_stts`, `namapoli`) VALUES
-('20250709/0001', '0001', '0000-00-00', '00:00:00', 'Dr. Mutya', 'UMUM', 'BARU', ''),
-('20250709/0002', '0002', '2025-07-09', '06:23:00', 'Dr. Dwi', 'UMUM', 'BARU', '');
+INSERT INTO `rajal` (`no_rkm_medis`, `nama`, `tgl_periksa`, `jam_periksa`, `nama_dokter`, `nama_pj`, `nama_stts`, `nm_poli`) VALUES
+('0001', 'hasbi', '0000-00-00', '00:00:00', 'dr. a', 'umum', 'lama', 'Anak');
 
 -- --------------------------------------------------------
 
@@ -506,26 +462,17 @@ CREATE TABLE `satusehat` (
 
 CREATE TABLE `settings` (
   `id` int(20) NOT NULL,
-  `field` varchar(50) NOT NULL,
-  `value` varchar(500) NOT NULL
+  `nama_instansi` varchar(50) NOT NULL,
+  `alamat_instansi` varchar(30) NOT NULL,
+  `baground` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `field`, `value`) VALUES
-(1, 'logo', ''),
-(2, 'nama_instansi', ''),
-(3, 'alamat_instansi', '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `status`
---
--- Error reading structure for table simrs.status: #1932 - Table 'simrs.status' doesn't exist in engine
--- Error reading data for table simrs.status: #1064 - You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM `simrs`.`status`' at line 1
+INSERT INTO `settings` (`id`, `nama_instansi`, `alamat_instansi`, `baground`) VALUES
+(1, 'Klinik Arafah Husada', 'Kab Kediri', '../simrs/asset/images/wallpaperrr.jpeg');
 
 -- --------------------------------------------------------
 
@@ -575,6 +522,7 @@ INSERT INTO `stts_biling` (`kd_stts`, `nama_stts`) VALUES
 
 CREATE TABLE `users` (
   `user_id` int(30) NOT NULL,
+  `fullname` varchar(30) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
@@ -586,8 +534,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(0, '001', '$2y$10$r2eX7SOYEawUmlBXHclG9eIZVfop7n5x.LKxXAlim1F46tM0HqEHy', NULL, NULL, NULL);
+INSERT INTO `users` (`user_id`, `fullname`, `username`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(6, '', 'admin', '$2y$10$9S8h8tgAGlXsMyks9pQYs.lvAGgqAyXmB/m8yudHqmF0C1arUk/XK', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -612,8 +560,8 @@ ALTER TABLE `apam`
 -- Indexes for table `biling`
 --
 ALTER TABLE `biling`
-  ADD KEY `no_rawat` (`no_rawat`),
-  ADD KEY `status` (`status`);
+  ADD KEY `status` (`status`),
+  ADD KEY `no_rawat` (`no_rkm_medis`);
 
 --
 -- Indexes for table `data_ruang`
@@ -653,8 +601,8 @@ ALTER TABLE `igd`
 ALTER TABLE `laborat`
   ADD PRIMARY KEY (`no_rkm_medis`),
   ADD KEY `no_rkm_medis` (`no_rkm_medis`),
-  ADD KEY `nama_dokter` (`nama_dokter`),
-  ADD KEY `nama_pj` (`nama_pj`);
+  ADD KEY `nama_pj` (`nama_pj`),
+  ADD KEY `nama_dokter` (`nama_dokter`);
 
 --
 -- Indexes for table `obat`
@@ -669,9 +617,9 @@ ALTER TABLE `pasien`
   ADD PRIMARY KEY (`no_rkm_medis`),
   ADD KEY `no_ktp` (`no_ktp`),
   ADD KEY `kd_pj` (`kd_pj`),
-  ADD KEY `no_rkm_medis` (`no_rkm_medis`),
   ADD KEY `jenis_kelamin` (`jk`),
-  ADD KEY `nama` (`nama`);
+  ADD KEY `nama` (`nama`),
+  ADD KEY `no_rkm_medis` (`no_rkm_medis`);
 
 --
 -- Indexes for table `pegawai`
@@ -708,13 +656,10 @@ ALTER TABLE `periksarajal`
   ADD KEY `no_rkm_medis` (`no_rkm_medis`);
 
 --
--- Indexes for table `poliklinik`
+-- Indexes for table `poli`
 --
-ALTER TABLE `poliklinik`
+ALTER TABLE `poli`
   ADD PRIMARY KEY (`kd_poli`),
-  ADD KEY `registrasi` (`registrasi`),
-  ADD KEY `registrasilama` (`registrasilama`),
-  ADD KEY `kd_poli` (`kd_poli`),
   ADD KEY `nm_poli` (`nm_poli`);
 
 --
@@ -730,12 +675,12 @@ ALTER TABLE `radiologi`
 -- Indexes for table `rajal`
 --
 ALTER TABLE `rajal`
-  ADD KEY `no_rawat` (`no_rawat`),
   ADD KEY `no_rkm_medis` (`no_rkm_medis`),
+  ADD KEY `nama` (`nama`),
   ADD KEY `nama_dokter` (`nama_dokter`),
-  ADD KEY `rajal_ibfk_4` (`nama_stts`),
-  ADD KEY `rajal_ibfk_5` (`nama_pj`),
-  ADD KEY `namapoli` (`namapoli`);
+  ADD KEY `nama_pj` (`nama_pj`),
+  ADD KEY `nama_stts` (`nama_stts`),
+  ADD KEY `nm_poli` (`nm_poli`);
 
 --
 -- Indexes for table `rawatinap`
@@ -768,6 +713,7 @@ ALTER TABLE `stts_biling`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
   ADD KEY `username` (`username`) USING BTREE,
   ADD KEY `user_id` (`user_id`);
 
@@ -812,6 +758,12 @@ ALTER TABLE `rawatinap`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -825,7 +777,7 @@ ALTER TABLE `antrian_pasien`
 -- Constraints for table `biling`
 --
 ALTER TABLE `biling`
-  ADD CONSTRAINT `biling_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `rajal` (`no_rawat`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `biling_ibfk_1` FOREIGN KEY (`no_rkm_medis`) REFERENCES `rajal` (`no_rkm_medis`) ON UPDATE CASCADE,
   ADD CONSTRAINT `biling_ibfk_2` FOREIGN KEY (`status`) REFERENCES `stts_biling` (`nama_stts`) ON UPDATE CASCADE;
 
 --
@@ -838,7 +790,7 @@ ALTER TABLE `igd`
 -- Constraints for table `laborat`
 --
 ALTER TABLE `laborat`
-  ADD CONSTRAINT `laborat_ibfk_1` FOREIGN KEY (`no_rkm_medis`) REFERENCES `rajal` (`no_rkm_medis`),
+  ADD CONSTRAINT `laborat_ibfk_1` FOREIGN KEY (`no_rkm_medis`) REFERENCES `pasien` (`no_rkm_medis`) ON UPDATE CASCADE,
   ADD CONSTRAINT `laborat_ibfk_2` FOREIGN KEY (`nama_dokter`) REFERENCES `dokter` (`nama_dokter`) ON UPDATE CASCADE,
   ADD CONSTRAINT `laborat_ibfk_3` FOREIGN KEY (`nama_pj`) REFERENCES `penjab` (`nama_pj`) ON UPDATE CASCADE;
 
@@ -868,9 +820,11 @@ ALTER TABLE `radiologi`
 --
 ALTER TABLE `rajal`
   ADD CONSTRAINT `rajal_ibfk_1` FOREIGN KEY (`no_rkm_medis`) REFERENCES `pasien` (`no_rkm_medis`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `rajal_ibfk_2` FOREIGN KEY (`nama_dokter`) REFERENCES `dokter` (`nama_dokter`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `rajal_ibfk_4` FOREIGN KEY (`nama_stts`) REFERENCES `stts` (`nama_stts`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `rajal_ibfk_5` FOREIGN KEY (`nama_pj`) REFERENCES `penjab` (`kd_pj`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `rajal_ibfk_2` FOREIGN KEY (`nama`) REFERENCES `pasien` (`nama`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `rajal_ibfk_3` FOREIGN KEY (`nama_dokter`) REFERENCES `dokter` (`nama_dokter`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `rajal_ibfk_4` FOREIGN KEY (`nama_pj`) REFERENCES `penjab` (`nama_pj`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `rajal_ibfk_5` FOREIGN KEY (`nama_stts`) REFERENCES `stts` (`nama_stts`),
+  ADD CONSTRAINT `rajal_ibfk_6` FOREIGN KEY (`nm_poli`) REFERENCES `poli` (`nm_poli`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rawatinap`
