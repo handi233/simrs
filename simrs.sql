@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2025 at 07:47 AM
+-- Generation Time: Jul 26, 2025 at 05:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -165,12 +165,26 @@ CREATE TABLE `igd` (
   `jam_inap` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `igd`
+-- Table structure for table `kamar`
 --
 
-INSERT INTO `igd` (`id`, `no_rkm_medis`, `tgl_inap`, `jam_inap`) VALUES
-(15, '0001', '2025-07-01', '15:04:00');
+CREATE TABLE `kamar` (
+  `id` int(12) NOT NULL,
+  `kd_kamar` varchar(30) NOT NULL,
+  `nama_kamar` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `kamar`
+--
+
+INSERT INTO `kamar` (`id`, `kd_kamar`, `nama_kamar`) VALUES
+(1, 'K001', 'mawar'),
+(2, 'K002', 'melati'),
+(3, '', 'anggrek');
 
 -- --------------------------------------------------------
 
@@ -187,13 +201,6 @@ CREATE TABLE `laborat` (
   `hasil_lab` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `laborat`
---
-
-INSERT INTO `laborat` (`no_rkm_medis`, `tgl_periksa`, `jam_periksa`, `nama_dokter`, `nama_pj`, `hasil_lab`) VALUES
-('0001', '0000-00-00', '00:00:00', 'Dr. B', 'UMUM', '');
-
 -- --------------------------------------------------------
 
 --
@@ -208,13 +215,6 @@ CREATE TABLE `obat` (
   `pcs` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `obat`
---
-
-INSERT INTO `obat` (`id`, `kd_obat`, `tgl`, `nama`, `pcs`) VALUES
-(0, 'O001', '2025-07-01', 'CTM', '10');
-
 -- --------------------------------------------------------
 
 --
@@ -222,6 +222,7 @@ INSERT INTO `obat` (`id`, `kd_obat`, `tgl`, `nama`, `pcs`) VALUES
 --
 
 CREATE TABLE `pasien` (
+  `id` int(30) NOT NULL,
   `no_rkm_medis` varchar(10) NOT NULL,
   `nama` varchar(35) NOT NULL,
   `jk` varchar(20) NOT NULL,
@@ -264,12 +265,12 @@ CREATE TABLE `pasien` (
 -- Dumping data for table `pasien`
 --
 
-INSERT INTO `pasien` (`no_rkm_medis`, `nama`, `jk`, `no_ktp`, `tmp_lahir`, `tgl_lahir`, `nm_ibu`, `alamat`, `gol_darah`, `pekerjaan`, `stts`, `agama`, `tgl_daftar`, `no_tlp`, `umur`, `pnd`, `keluarga`, `namakeluarga`, `kd_pj`, `no_peserta`, `kd_kel`, `kd_kec`, `kd_kab`, `pekerjaanpj`, `alamatpj`, `kelurahanpj`, `kecamatanpj`, `kabupatenpj`, `perusahaan_pasien`, `suku_bangsa`, `bahasa_pasien`, `cacat_fisik`, `email`, `nip`, `kd_prop`, `propinsipj`) VALUES
-('0001', 'hasbi', 'L', 0, '', '0000-00-00', '', '', 'B', '', '', 'ISLAM', '0000-00-00', '', '', 'TK', 'IBU', '', 'UM', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, ''),
-('0002', 'dika', 'L', 2147483647, 'KEDIRI', '2025-07-04', '-', '-', 'B', '-', '', '-', '2025-07-03', '', '', '-', '', '', '-', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, ''),
-('0003', 'DEKA', 'L', 2147483647, '', '0000-00-00', '', 'PARE', '-', '', 'B', '-', '0000-00-00', '', '', 'TK', 'IBU', '', '', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, ''),
-('0004', 'kusnandar', 'L', 2147483647, '', '0000-00-00', '', 'balowerti', '-', '', 'B', '-', '0000-00-00', '', '', 'TK', 'IBU', '', '', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, ''),
-('0005', 'hasbullah', 'L', 341, 'kediri', '2025-07-03', '', 'sidoarjo', '-', '', 'B', '-', '0000-00-00', '', '', 'TK', 'IBU', '', '', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, '');
+INSERT INTO `pasien` (`id`, `no_rkm_medis`, `nama`, `jk`, `no_ktp`, `tmp_lahir`, `tgl_lahir`, `nm_ibu`, `alamat`, `gol_darah`, `pekerjaan`, `stts`, `agama`, `tgl_daftar`, `no_tlp`, `umur`, `pnd`, `keluarga`, `namakeluarga`, `kd_pj`, `no_peserta`, `kd_kel`, `kd_kec`, `kd_kab`, `pekerjaanpj`, `alamatpj`, `kelurahanpj`, `kecamatanpj`, `kabupatenpj`, `perusahaan_pasien`, `suku_bangsa`, `bahasa_pasien`, `cacat_fisik`, `email`, `nip`, `kd_prop`, `propinsipj`) VALUES
+(1, '0001', 'hasbi', 'L', 0, '', '0000-00-00', '', '', 'B', '', '', 'ISLAM', '0000-00-00', '', '', 'TK', 'IBU', '', 'UM', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, ''),
+(2, '0002', 'dika', 'L', 2147483647, 'KEDIRI', '2025-07-04', '-', '-', 'B', '-', '', '-', '2025-07-03', '', '', '-', '', '', '-', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, ''),
+(3, '0003', 'DEKA', 'L', 2147483647, '', '0000-00-00', '', 'PARE', '-', '', 'B', '-', '0000-00-00', '', '', 'TK', 'IBU', '', '', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, ''),
+(4, '0004', 'kusnandar', 'L', 2147483647, '', '0000-00-00', '', 'balowerti', '-', '', 'B', '-', '0000-00-00', '', '', 'TK', 'IBU', '', '', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, ''),
+(5, '0005', 'hasbullah', 'L', 341, 'kediri', '2025-07-03', '', 'sidoarjo', '-', '', 'B', '-', '0000-00-00', '', '', 'TK', 'IBU', '', '', '', '', 0, 0, '', '', '', '', '', '', 0, 0, 0, '', '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -357,13 +358,6 @@ CREATE TABLE `periksarajal` (
   `diagnosa` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `periksarajal`
---
-
-INSERT INTO `periksarajal` (`id`, `no_rkm_medis`, `keluhan`, `diagnosa`) VALUES
-(2, '0001', 'tipes', 'svfv');
-
 -- --------------------------------------------------------
 
 --
@@ -405,6 +399,7 @@ CREATE TABLE `radiologi` (
 --
 
 CREATE TABLE `rajal` (
+  `id` int(20) NOT NULL,
   `no_rkm_medis` varchar(20) NOT NULL,
   `nama` varchar(30) NOT NULL,
   `tgl_periksa` date NOT NULL,
@@ -414,13 +409,6 @@ CREATE TABLE `rajal` (
   `nama_stts` varchar(20) NOT NULL,
   `nm_poli` varchar(35) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `rajal`
---
-
-INSERT INTO `rajal` (`no_rkm_medis`, `nama`, `tgl_periksa`, `jam_periksa`, `nama_dokter`, `nama_pj`, `nama_stts`, `nm_poli`) VALUES
-('0001', 'hasbi', '0000-00-00', '00:00:00', 'dr. a', 'umum', 'lama', 'Anak');
 
 -- --------------------------------------------------------
 
@@ -432,15 +420,30 @@ CREATE TABLE `rawatinap` (
   `id` int(20) NOT NULL,
   `no_rkm_medis` varchar(30) DEFAULT NULL,
   `tgl_inap` date NOT NULL,
-  `jam_inap` time NOT NULL
+  `jam_inap` time NOT NULL,
+  `nama_kamar` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_module`
+--
+
+CREATE TABLE `role_module` (
+  `role_id` int(11) DEFAULT NULL,
+  `module_id` int(11) DEFAULT NULL,
+  `can_view` tinyint(1) DEFAULT NULL,
+  `can_edit` tinyint(1) DEFAULT NULL,
+  `can_delete` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `rawatinap`
+-- Dumping data for table `role_module`
 --
 
-INSERT INTO `rawatinap` (`id`, `no_rkm_medis`, `tgl_inap`, `jam_inap`) VALUES
-(15, '0001', '2025-07-01', '15:04:00');
+INSERT INTO `role_module` (`role_id`, `module_id`, `can_view`, `can_edit`, `can_delete`) VALUES
+(2, 4, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -449,6 +452,7 @@ INSERT INTO `rawatinap` (`id`, `no_rkm_medis`, `tgl_inap`, `jam_inap`) VALUES
 --
 
 CREATE TABLE `satusehat` (
+  `id` int(20) NOT NULL,
   `client_key` varchar(30) NOT NULL,
   `secret_key` varchar(30) NOT NULL,
   `url` varchar(70) NOT NULL
@@ -472,7 +476,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `nama_instansi`, `alamat_instansi`, `baground`) VALUES
-(1, 'Klinik Arafah Husada', 'Kab Kediri', '../simrs/asset/images/wallpaperrr.jpeg');
+(1, 'Klinik Arafah Husada', 'Kab Kediri Jatim', '../simrs/asset/images/wallpaperrr.jpeg');
 
 -- --------------------------------------------------------
 
@@ -523,19 +527,20 @@ INSERT INTO `stts_biling` (`kd_stts`, `nama_stts`) VALUES
 CREATE TABLE `users` (
   `user_id` int(30) NOT NULL,
   `fullname` varchar(30) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `username` varchar(15) NOT NULL,
+  `password` varchar(70) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `level` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `fullname`, `username`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(6, '', 'admin', '$2y$10$9S8h8tgAGlXsMyks9pQYs.lvAGgqAyXmB/m8yudHqmF0C1arUk/XK', NULL, NULL, NULL);
+INSERT INTO `users` (`user_id`, `fullname`, `username`, `password`, `remember_token`, `created_at`, `updated_at`, `level`) VALUES
+(1, 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', NULL, NULL, NULL, '');
 
 --
 -- Indexes for dumped tables
@@ -596,6 +601,12 @@ ALTER TABLE `igd`
   ADD KEY `no_rkm_medis` (`no_rkm_medis`);
 
 --
+-- Indexes for table `kamar`
+--
+ALTER TABLE `kamar`
+  ADD KEY `nama_kamar` (`nama_kamar`);
+
+--
 -- Indexes for table `laborat`
 --
 ALTER TABLE `laborat`
@@ -619,7 +630,8 @@ ALTER TABLE `pasien`
   ADD KEY `kd_pj` (`kd_pj`),
   ADD KEY `jenis_kelamin` (`jk`),
   ADD KEY `nama` (`nama`),
-  ADD KEY `no_rkm_medis` (`no_rkm_medis`);
+  ADD KEY `no_rkm_medis` (`no_rkm_medis`),
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `pegawai`
@@ -675,19 +687,28 @@ ALTER TABLE `radiologi`
 -- Indexes for table `rajal`
 --
 ALTER TABLE `rajal`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `no_rkm_medis` (`no_rkm_medis`),
-  ADD KEY `nama` (`nama`),
   ADD KEY `nama_dokter` (`nama_dokter`),
   ADD KEY `nama_pj` (`nama_pj`),
   ADD KEY `nama_stts` (`nama_stts`),
-  ADD KEY `nm_poli` (`nm_poli`);
+  ADD KEY `nm_poli` (`nm_poli`),
+  ADD KEY `id` (`id`),
+  ADD KEY `nama` (`nama`);
 
 --
 -- Indexes for table `rawatinap`
 --
 ALTER TABLE `rawatinap`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `no_rkm_medis` (`no_rkm_medis`);
+  ADD KEY `no_rkm_medis` (`no_rkm_medis`),
+  ADD KEY `nama_kamar` (`nama_kamar`);
+
+--
+-- Indexes for table `satusehat`
+--
+ALTER TABLE `satusehat`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `settings`
@@ -715,7 +736,8 @@ ALTER TABLE `stts_biling`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
   ADD KEY `username` (`username`) USING BTREE,
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `role_id` (`level`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -752,6 +774,12 @@ ALTER TABLE `periksarajal`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `rajal`
+--
+ALTER TABLE `rajal`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `rawatinap`
 --
 ALTER TABLE `rawatinap`
@@ -761,7 +789,7 @@ ALTER TABLE `rawatinap`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -830,7 +858,8 @@ ALTER TABLE `rajal`
 -- Constraints for table `rawatinap`
 --
 ALTER TABLE `rawatinap`
-  ADD CONSTRAINT `rawatinap_ibfk_1` FOREIGN KEY (`no_rkm_medis`) REFERENCES `pasien` (`no_rkm_medis`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `rawatinap_ibfk_1` FOREIGN KEY (`no_rkm_medis`) REFERENCES `pasien` (`no_rkm_medis`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `rawatinap_ibfk_2` FOREIGN KEY (`nama_kamar`) REFERENCES `kamar` (`nama_kamar`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
