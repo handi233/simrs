@@ -22,8 +22,8 @@ Aplikasi ini tentang simulasi demo SIMRS (Sistem Informasi Management Rumah Saki
 
 ## Instalasi
 
-1.Impor Database format .sql browser crome dgn http://localhost/phpmyadmin dan pilih import DB 
-2.download xampp
+1.Impor database format File  .sql Open browser url crome dgn http://localhost/phpmyadmin dan pilih import DB / script sql
+2.Download xampp
 3.Aktifkan APACHE DAN MYSQL XAMPP(DIPASTIKAN ON XAMPP)
 4.Pindahkan file ke htdocs
 5.Buka Browser Crome
