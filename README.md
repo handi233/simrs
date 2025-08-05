@@ -26,9 +26,10 @@ Aplikasi ini tentang simulasi demo SIMRS (Sistem Informasi Management Rumah Saki
 2.Download xampp
 3.Aktifkan APACHE DAN MYSQL XAMPP(DIPASTIKAN ON XAMPP)
 4.Pindahkan file ke htdocs
-5.Buka Browser Crome
-6.search bar url mengetik http://localhost/simrs
-7.User Login: admin & admin
+5.Konfigurasi file koneksi database sesuai config local
+6.Buka Browser Crome
+7.Search bar url mengetik http://localhost/simrs
+8.User Login: admin & admin
 
 
 ### Prasyarat
@@ -47,4 +48,4 @@ Sebelum melanjutkan, pastikan Anda memiliki perangkat lunak berikut:
    cd simrs
 
 
-NOTE: Project ini hanya sebagai informasi pembelajaran / DEMO dan tidak disarankan digunakan untuk production
+Disclamer : Project ini hanya sebagai informasi pembelajaran / DEMO dan tidak disarankan digunakan untuk production
