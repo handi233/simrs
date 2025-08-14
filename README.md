@@ -48,4 +48,4 @@ Sebelum melanjutkan, pastikan Anda memiliki perangkat lunak berikut:
    cd simrs
 
 
-Disclamer : Project ini hanya sebagai informasi pembelajaran / DEMO dan tidak disarankan digunakan untuk production sekedar project simulasi 
+Disclamer : Project ini hanya sebagai informasi pembelajaran / DEMO dan tidak disarankan digunakan untuk production sekedar project simulasi dan  terhadap pihak tertentu (sifat terbatas)
