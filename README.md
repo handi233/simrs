@@ -11,7 +11,7 @@ Aplikasi ini tentang simulasi demo SIMRS (Sistem Informasi Management Rumah Saki
 - Fitur 5: Rawat inap untuk pasien menginap.
 - Fitur 6: Fitur IGD pasien perlu tindakan penangangan khusus / Ke gawat darurat.
 - Fitur 7: ICD 10 yang terbaru.
-- DAN - LAIN - LAIN
+- Fitur Role Hak Akses
   
 ## Teknologi yang Digunakan
 
